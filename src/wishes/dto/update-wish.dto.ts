@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateWishDto } from './create-wish.dto';
+import { Wish } from '../entities/wish.entity';
 
-export class UpdateWishDto extends PartialType(CreateWishDto) {}
+export type UpdateWishDto = Omit<Wish, 'updatedAt'>;
