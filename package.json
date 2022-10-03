@@ -2,7 +2,7 @@
   "name": "kupipodariday-backend",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Aleksey",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^9.0.0",
+    "@nestjs/common": "^9.1.2",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/mapped-types": "^1.1.0",
