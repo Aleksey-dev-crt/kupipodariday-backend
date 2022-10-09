@@ -23,19 +23,11 @@ export class User {
   @Length(2, 30)
   username: string;
 
-  @Column({
-    type: 'varchar',
-    default: 'Пока ничего не рассказал о себе',
-    unique: true,
-  })
+  @Column({ default: 'Пока ничего не рассказал о себе' })
   @Length(2, 200)
   about: string;
 
-  @Column({
-    type: 'varchar',
-    default: 'https://i.pravatar.cc/300',
-    unique: true,
-  })
+  @Column({ default: 'https://i.pravatar.cc/300' })
   @IsUrl(undefined, { message: 'URL is not valid.' })
   avatar: string;
 
@@ -50,15 +42,12 @@ export class User {
   @Length(2, 30)
   password: string;
 
-  // список желаемых подарков. Использовать соответствующий тип связи.
-  @OneToMany(() => Wish, (wish) => wish.name)
+  @OneToMany(() => Wish, (wish) => wish.owner)
   wishes: Wish[];
 
-  // список подарков, на которые скидывается пользователь. Использовать соответствующий тип связи.
   @OneToMany(() => Offer, (offer) => offer.item)
   offers: Offer[];
 
-  // список вишлистов, которые создал пользователь. Использовать соответствующий тип связи.
   @OneToMany(() => Wishlist, (wishlist) => wishlist.name)
   wishlists: Wishlist[];
 

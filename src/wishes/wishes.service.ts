@@ -24,6 +24,12 @@ export class WishesService {
     return this.wishRepository.findOneBy({ id });
   }
 
+  findUserWishes(id: number): Promise<Wish[]> {
+    return this.wishRepository.find({
+      where: { owner: { id } },
+    });
+  }
+
   update(id: number, wish: UpdateWishDto) {
     return this.wishRepository.update({ id }, wish);
   }

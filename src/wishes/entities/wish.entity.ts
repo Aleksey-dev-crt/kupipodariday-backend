@@ -1,5 +1,6 @@
 import { IsInt, IsNumber, IsUrl, Length } from 'class-validator';
 import { Offer } from 'src/offers/entities/offer.entity';
+import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToMany,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -34,18 +36,16 @@ export class Wish {
   @IsNumber()
   raised: number;
 
-  @Column()
-  owner: string;
+  @ManyToOne(() => User, (user) => user.wishes)
+  owner: User;
 
   @Column()
   @Length(1, 1024)
   description: string;
 
-  // массив ссылок на заявки скинуться от других пользователей
   @ManyToMany(() => Offer, (offer) => offer.item)
   offers: Offer[];
 
-  // содержит cчётчик тех, кто скопировал подарок себе. Целое десятичное число
   @Column()
   @IsInt()
   copied: number;
