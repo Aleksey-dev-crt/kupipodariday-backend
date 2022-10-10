@@ -1,12 +1,15 @@
-import { IsUrl, Length } from 'class-validator';
-import { Offer } from 'src/offers/entities/offer.entity';
+import { IsOptional, IsUrl, Length } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
+import { Wish } from 'src/wishes/entities/wish.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -18,16 +21,24 @@ export class Wishlist {
   @Length(1, 250)
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Length(1, 1500)
+  @IsOptional()
   description: string;
 
   @Column()
   @IsUrl(undefined, { message: 'URL is not valid.' })
   image: string;
 
-  @OneToMany(() => Offer, (offer) => offer.item)
-  items: Offer[];
+  @ManyToOne(() => User, (user) => user.wishlists)
+  owner: User;
+
+  @ManyToMany(() => Wish)
+  @JoinTable()
+  items: Wish[];
+
+  @IsOptional()
+  itemsId: number[];
 
   @CreateDateColumn()
   createdAt: Date;

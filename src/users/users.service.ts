@@ -37,10 +37,6 @@ export class UsersService {
     return users;
   }
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
-  }
-
   findOne(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }

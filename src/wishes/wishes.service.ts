@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { FindManyOptions, Repository } from 'typeorm';
 import { CreateWishDto } from './dto/create-wish.dto';
 import { UpdateWishDto } from './dto/update-wish.dto';
 import { Wish } from './entities/wish.entity';
@@ -12,16 +13,38 @@ export class WishesService {
     private readonly wishRepository: Repository<Wish>,
   ) {}
 
-  create(offer: CreateWishDto): Promise<Wish> {
-    return this.wishRepository.save(offer);
+  create(owner: User, createWishDto: CreateWishDto): Promise<Wish> {
+    return this.wishRepository.save({
+      ...createWishDto,
+      owner,
+    });
   }
 
-  findAll(): Promise<Wish[]> {
-    return this.wishRepository.find();
+  findLast(): Promise<Wish[]> {
+    return this.wishRepository.find({
+      take: 30,
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  findTop(): Promise<Wish[]> {
+    return this.wishRepository.find({ 
+      take: 10,
+      order: { copied: 'DESC' } 
+    });
   }
 
   findOne(id: number): Promise<Wish> {
-    return this.wishRepository.findOneBy({ id });
+    return this.wishRepository.findOne({
+      relations: {
+        owner: { wishes: true, offers: true },
+      },
+      where: { id },
+    });
+  }
+
+  findMany(ids: FindManyOptions<Wish>): Promise<Wish[]> {
+    return this.wishRepository.find(ids);
   }
 
   findUserWishes(id: number): Promise<Wish[]> {

@@ -27,11 +27,6 @@ export class UsersController {
     private readonly wishesService: WishesService,
     ) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Req() req): Promise<User> {
@@ -62,21 +57,20 @@ export class UsersController {
     return this.wishesService.findUserWishes(req.user.id);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get(':username')
+  findUser(@Param('username') username: string) {
+    return this.usersService.findByUsername(username);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get(':username/wishes')
+  async findUserWishes(@Param('username') username: string) {
+    const { id } = await this.usersService.findByUsername(username);
+    return this.wishesService.findUserWishes(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);

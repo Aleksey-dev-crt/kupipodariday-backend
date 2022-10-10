@@ -1,10 +1,13 @@
 import { IsNumber } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
+import { Wish } from 'src/wishes/entities/wish.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -12,13 +15,16 @@ export class Offer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  user: string;
+  @ManyToOne(() => User, (user) => user.offers)
+  user: User;
 
-  @Column()
-  item: string;
+  @ManyToOne(() => Wish, (wish) => wish.offers)
+  item: Wish;
 
-  @Column()
+  @Column({
+    scale: 2,
+    default: 0,
+  })
   @IsNumber()
   amount: number;
 
@@ -27,6 +33,9 @@ export class Offer {
     default: false,
   })
   hidden: boolean;
+
+  @IsNumber()
+  itemId: number;
 
   @CreateDateColumn()
   createdAt: Date;

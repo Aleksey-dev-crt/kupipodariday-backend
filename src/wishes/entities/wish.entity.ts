@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsUrl, Length } from 'class-validator';
+import { IsUrl, Length, IsOptional } from 'class-validator';
 import { Offer } from 'src/offers/entities/offer.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -7,8 +7,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -28,12 +28,18 @@ export class Wish {
   @IsUrl(undefined, { message: 'URL is not valid.' })
   image: string;
 
-  @Column()
-  @IsNumber()
+  @Column({
+    scale: 2,
+    default: 0,
+  })
   price: number;
 
-  @Column()
-  @IsNumber()
+  @Column({
+    scale: 2,
+    default: 0,
+    nullable: true,
+  })
+  @IsOptional()
   raised: number;
 
   @ManyToOne(() => User, (user) => user.wishes)
@@ -43,11 +49,14 @@ export class Wish {
   @Length(1, 1024)
   description: string;
 
-  @ManyToMany(() => Offer, (offer) => offer.item)
+  @OneToMany(() => Offer, (offer) => offer.item)
   offers: Offer[];
 
-  @Column()
-  @IsInt()
+  @Column({
+    default: 0,
+    nullable: true,
+  })
+  @IsOptional()
   copied: number;
 
   @CreateDateColumn()
