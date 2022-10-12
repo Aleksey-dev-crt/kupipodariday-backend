@@ -49,15 +49,15 @@ export class Wish {
   @Length(1, 1024)
   description: string;
 
-  @OneToMany(() => Offer, (offer) => offer.item)
-  offers: Offer[];
-
   @Column({
     default: 0,
     nullable: true,
   })
   @IsOptional()
   copied: number;
+
+  @OneToMany(() => Offer, (offer) => offer.item)
+  offers: Offer[];
 
   @CreateDateColumn()
   createdAt: Date;

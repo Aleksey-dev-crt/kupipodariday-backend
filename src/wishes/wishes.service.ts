@@ -28,16 +28,17 @@ export class WishesService {
   }
 
   findTop(): Promise<Wish[]> {
-    return this.wishRepository.find({ 
+    return this.wishRepository.find({
       take: 10,
-      order: { copied: 'DESC' } 
+      order: { copied: 'DESC' },
     });
   }
 
   findOne(id: number): Promise<Wish> {
     return this.wishRepository.findOne({
       relations: {
-        owner: { wishes: true, offers: true },
+        owner: { wishes: true, wishlists: true, offers: true },
+        offers: { user: true },
       },
       where: { id },
     });
@@ -53,8 +54,8 @@ export class WishesService {
     });
   }
 
-  update(id: number, wish: UpdateWishDto) {
-    return this.wishRepository.update({ id }, wish);
+  update(id: number, updateWishDto: UpdateWishDto) {
+    return this.wishRepository.update(id, updateWishDto);
   }
 
   remove(id: number) {

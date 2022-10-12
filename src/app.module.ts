@@ -10,6 +10,7 @@ import { Offer } from './offers/entities/offer.entity';
 import { Wish } from './wishes/entities/wish.entity';
 import { Wishlist } from './wishlists/entities/wishlist.entity';
 import { AuthModule } from './auth/auth.module';
+import { EmailSenderModule } from './email-sender/email-sender.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
     WishlistsModule,
     OffersModule,
     AuthModule,
+    EmailSenderModule,
   ],
   controllers: [AppController],
   providers: [],

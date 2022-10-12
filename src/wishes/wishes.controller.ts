@@ -48,12 +48,10 @@ export class WishesController {
   @Post(':id/copy')
   async copyWish(@Req() req, @Param('id') id: string) {
     const wish = await this.wishesService.findOne(+id);
-    await this.wishesService.update(wish.id, { ...wish, copied: ++wish.copied });
-    delete wish.id   
-    delete wish.createdAt   
-    delete wish.updatedAt   
-    return this.wishesService.create(req.user, { ...wish });  
+    await this.wishesService.update(wish.id, { copied: wish.copied++ });
+    delete wish.id;
+    delete wish.createdAt;
+    delete wish.updatedAt;
+    return this.wishesService.create(req.user, { ...wish });
   }
 }
-
-

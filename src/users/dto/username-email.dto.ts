@@ -1,4 +1,3 @@
-export class usernameOrEmailDto {
-    query: string;
-  }
-  
+export class UsernameOrEmailDto {
+  query: string;
+}

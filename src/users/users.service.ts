@@ -5,7 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
-import { usernameOrEmailDto } from './dto/username-email.dto';
+import { UsernameOrEmailDto } from './dto/username-email.dto';
 
 @Injectable()
 export class UsersService {
@@ -27,12 +27,13 @@ export class UsersService {
     }
   }
 
-  findMany({ query }: usernameOrEmailDto): Promise<User[]> {
+  findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  findMany({ query }: UsernameOrEmailDto): Promise<User[]> {
     const users = this.userRepository.find({
-      where: [
-        { email: query },
-        { username: query },
-      ],
+      where: [{ email: query }, { username: query }],
     });
     return users;
   }

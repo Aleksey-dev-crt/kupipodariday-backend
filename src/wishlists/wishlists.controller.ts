@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Req,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { WishlistsService } from './wishlists.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
@@ -38,10 +28,7 @@ export class WishlistsController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateWishlistDto: UpdateWishlistDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateWishlistDto: UpdateWishlistDto) {
     const wishlist = await this.wishlistsService.findOne(+id);
     await this.wishlistsService.update(+id, updateWishlistDto);
     return { ...wishlist, ...updateWishlistDto };

@@ -18,7 +18,7 @@ export class WishlistsService {
   async create(owner: User, createWishlistDto: CreateWishlistDto): Promise<Wishlist> {
     const items = await this.wishesService.findMany({
       where: { id: In(createWishlistDto.itemsId) },
-    })
+    });
     return this.wishlistRepository.save({
       ...createWishlistDto,
       owner,

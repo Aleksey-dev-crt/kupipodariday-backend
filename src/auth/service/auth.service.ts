@@ -6,18 +6,14 @@ import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService
-  ) {
-  }
+  constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
   async validateUser(username: string, password: string) {
     const user = await this.usersService.findByUsername(username);
     const passwordChecked = await bcrypt.compare(password, user.password);
 
     if (user && passwordChecked) {
-      const {password, ...result} = user;
+      const { password, ...result } = user;
       return result;
     }
     return null;
@@ -26,7 +22,7 @@ export class AuthService {
   login(user: User): { access_token: string } {
     const payload = { id: user.id };
     return {
-      access_token: this.jwtService.sign(payload)
-    }
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

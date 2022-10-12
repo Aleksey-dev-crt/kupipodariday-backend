@@ -1,3 +1,21 @@
-import { Wish } from '../entities/wish.entity';
+import { IsOptional } from 'class-validator';
 
-export type UpdateWishDto = Omit<Wish, 'id' | 'createdAt' | 'updatedAt'>;
+export class UpdateWishDto {
+  @IsOptional()
+  name?: string;
+
+  @IsOptional()
+  link?: string;
+
+  @IsOptional()
+  image?: string;
+
+  @IsOptional()
+  description?: string;
+
+  @IsOptional()
+  copied?: number;
+
+  @IsOptional()
+  raised?: number;
+}
