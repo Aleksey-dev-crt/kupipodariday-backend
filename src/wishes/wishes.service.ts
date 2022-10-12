@@ -22,14 +22,14 @@ export class WishesService {
 
   findLast(): Promise<Wish[]> {
     return this.wishRepository.find({
-      take: 30,
+      take: 40,
       order: { createdAt: 'DESC' },
     });
   }
 
   findTop(): Promise<Wish[]> {
     return this.wishRepository.find({
-      take: 10,
+      take: 20,
       order: { copied: 'DESC' },
     });
   }
