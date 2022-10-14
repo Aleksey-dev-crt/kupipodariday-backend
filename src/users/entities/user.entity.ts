@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { IsEmail, IsUrl, Length } from 'class-validator';
 import { Offer } from 'src/offers/entities/offer.entity';
 import { Wish } from 'src/wishes/entities/wish.entity';
@@ -31,6 +32,7 @@ export class User {
   @IsUrl(undefined, { message: 'URL is not valid.' })
   avatar: string;
 
+  @Exclude()
   @Column({
     type: 'varchar',
     unique: true,
@@ -38,6 +40,7 @@ export class User {
   @IsEmail()
   email: string;
 
+  @Exclude()
   @Column()
   @Length(2, 30)
   password: string;
